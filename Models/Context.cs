@@ -5,7 +5,9 @@ public class Context : DbContext
 {
     public Context(DbContextOptions<Context> options) : base(options)
     {
+        
     }
+
     public DbSet<Article> Articles { get; set; }
     public DbSet<Client> Clients { get; set; }
     public DbSet<Contact> Contacts { get; set; }

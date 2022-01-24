@@ -2,9 +2,9 @@
 
 public class Article
 {
-    public long Id { get; set; }
-    public ICollection<Family> FamilyId { get; set; }
-    public ICollection<Provider> ProviderId { get; set; }
+    public int Id { get; set; }
+    public int FamilyId { get; set; }
+    public int ProviderId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public int Price { get; set; }

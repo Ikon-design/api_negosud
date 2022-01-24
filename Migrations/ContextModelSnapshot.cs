@@ -24,28 +24,31 @@ namespace api_negosud.Migrations
 
             modelBuilder.Entity("api_negosud.Models.Article", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FamilyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("OrderLineId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Picture")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProviderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Reference")
@@ -62,18 +65,16 @@ namespace api_negosud.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderLineId");
-
                     b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("api_negosud.Models.Client", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -95,16 +96,11 @@ namespace api_negosud.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("OrderId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Clients");
                 });
@@ -133,26 +129,18 @@ namespace api_negosud.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("ProviderId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProviderId");
 
                     b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("api_negosud.Models.Family", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long?>("ArticleId")
-                        .HasColumnType("bigint");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -160,24 +148,22 @@ namespace api_negosud.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
-
                     b.ToTable("Families");
                 });
 
             modelBuilder.Entity("api_negosud.Models.Order", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<long?>("OrderLineId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
@@ -191,18 +177,22 @@ namespace api_negosud.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderLineId");
-
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("api_negosud.Models.OrderLine", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -224,8 +214,8 @@ namespace api_negosud.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("ArticleId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ContactId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -237,75 +227,7 @@ namespace api_negosud.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
-
                     b.ToTable("Provider");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Article", b =>
-                {
-                    b.HasOne("api_negosud.Models.OrderLine", null)
-                        .WithMany("ArticleId")
-                        .HasForeignKey("OrderLineId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Client", b =>
-                {
-                    b.HasOne("api_negosud.Models.Order", null)
-                        .WithMany("ClientId")
-                        .HasForeignKey("OrderId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Contact", b =>
-                {
-                    b.HasOne("api_negosud.Models.Provider", null)
-                        .WithMany("ContatcId")
-                        .HasForeignKey("ProviderId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Family", b =>
-                {
-                    b.HasOne("api_negosud.Models.Article", null)
-                        .WithMany("FamilyId")
-                        .HasForeignKey("ArticleId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Order", b =>
-                {
-                    b.HasOne("api_negosud.Models.OrderLine", null)
-                        .WithMany("OrderId")
-                        .HasForeignKey("OrderLineId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Provider", b =>
-                {
-                    b.HasOne("api_negosud.Models.Article", null)
-                        .WithMany("ProviderId")
-                        .HasForeignKey("ArticleId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Article", b =>
-                {
-                    b.Navigation("FamilyId");
-
-                    b.Navigation("ProviderId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Order", b =>
-                {
-                    b.Navigation("ClientId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.OrderLine", b =>
-                {
-                    b.Navigation("ArticleId");
-
-                    b.Navigation("OrderId");
-                });
-
-            modelBuilder.Entity("api_negosud.Models.Provider", b =>
-                {
-                    b.Navigation("ContatcId");
                 });
 #pragma warning restore 612, 618
         }

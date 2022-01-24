@@ -2,8 +2,8 @@
 
 public class Order
 {
-    public long Id { get; set; }
-    public ICollection<Client> ClientId { get; set; }
+    public int Id { get; set; }
+    public int ClientId { get; set; }
     public string Reference { get; set; }
     public DateTime PurchaseDate { get; set; }
     public DateTime DeliveryDate { get; set; }

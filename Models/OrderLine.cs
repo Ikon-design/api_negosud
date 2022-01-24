@@ -2,9 +2,9 @@
 
 public class OrderLine
 {
-    public long Id { get; set; }
-    public ICollection<Order> OrderId { get; set; }
-    public ICollection<Article> ArticleId { get; set; }
+    public int Id { get; set; }
+    public int OrderId { get; set; }
+    public int ArticleId { get; set; }
     public int Quantity { get; set; }
 
     /*public OrderLine(Guid orderId, Guid articleId, int quantity)
